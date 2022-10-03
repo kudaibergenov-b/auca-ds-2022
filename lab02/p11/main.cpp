@@ -51,7 +51,10 @@ int main()
         a = solve(n1);
         b = solve(n2);
 
-        setprecision(2);
-        cout << (a < b ? a * 100 / b : b * 100 / a) << "\n";
+        if (a < b) {
+            printf("%.2f %%\n", a * 100.0 / b);
+        } else {
+            printf("%.2f %%\n", b * 100.0 / a);
+        }
     }
 }

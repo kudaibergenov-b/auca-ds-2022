@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <cstdio>
 
 template <typename C>
 int sz(const C &c) { return static_cast<int>(c.size()); }
@@ -7,8 +8,7 @@ using namespace std;
 
 int solve(char *name)
 {
-    int sum = 0;
-    int t;
+    int sum(0), t;
 
     while (*name)
     {
@@ -43,9 +43,9 @@ int main()
 {
     iostream::sync_with_stdio(false);
 
+    char n1[25], n2[25];
     int a, b;
-    char n1[30], n2[30];
-
+    
     while (cin >> n1 >> n2)
     {
         a = solve(n1);

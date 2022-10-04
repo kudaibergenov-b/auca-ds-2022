@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#include <cstdio>
 
 template <typename C>
 int sz(const C &c) { return static_cast<int>(c.size()); }

@@ -5,26 +5,28 @@ int sz(const C &c) { return static_cast<int>(c.size()); }
 
 using namespace std;
 
-int solve(char *name)
+int solve(string s)
 {
-    int sum(0), t;
+    int sum = 0;
 
-    while (*name)
+    for (int i = 0; i < sz(s); i++)
     {
-        if (*name >= 'a' && *name <= 'z')
+        if (isalpha(s[i]))
         {
-            sum += *name - 96;
-        }
-        else if (*name >= 'A' && *name <= 'Z')
-        {
-            sum += *name - 64;
-        }
-        ++name;
-    }
+            if (isupper(s[i]))
+            {
+                sum += (tolower(s[i]) - 96);
+            }
+            else
+            {
+                sum += (s[i] - 96);
+            }
+        }   
+  }
 
-    while (sum >= 10)
+    while (sum > 9)
     {
-        t = 0;
+        int t = 0;
 
         while (sum)
         {
@@ -42,13 +44,12 @@ int main()
 {
     iostream::sync_with_stdio(false);
 
-    char n1[25], n2[25];
     int a, b;
     
-    while (cin >> n1 >> n2)
+    for (string s1, s2; getline(cin, s1), getline(cin, s2);)
     {
-        a = solve(n1);
-        b = solve(n2);
+        a = solve(s1);
+        b = solve(s2);
 
         if (a < b) {
             printf("%.2f %%\n", a * 100.0 / b);

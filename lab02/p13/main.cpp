@@ -24,7 +24,12 @@ int main()
             
             int d, c, v;
             cin >> d >> c >> v;
-            if (b < v)
+            banks[d - 1] -= v;
+            banks[c - 1] += v;
+        }
+        for (int i = 0; i < b; i++)
+        {
+            if (banks[i] < 0)
             {
                 canPay = false;
             }

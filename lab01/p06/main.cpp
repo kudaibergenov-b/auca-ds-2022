@@ -25,7 +25,7 @@ string containerToStr(const C &c)
     return sout.str();
 }
 
-TEST_CASE("Default constructor")
+TEST_CASE("default constructor")
 {
     vector<int> v;
 
@@ -33,7 +33,7 @@ TEST_CASE("Default constructor")
     REQUIRE(v.size() == 0);
 }
 
-TEST_CASE("Constructor with size")
+TEST_CASE("constructor with size")
 {
     vector<int> v(10);
 
@@ -45,7 +45,7 @@ TEST_CASE("Constructor with size")
     }
 }
 
-TEST_CASE("Constructor with size and initial value")
+TEST_CASE("constructor with size and initial value")
 {
     vector<int> v(10, 1);
 
@@ -57,7 +57,7 @@ TEST_CASE("Constructor with size and initial value")
     }
 }
 
-TEST_CASE("Copy Constructor")
+TEST_CASE("copy constructor")
 {
     vector<int> v = {1, 2, 3, 4, 5};
 
@@ -73,6 +73,66 @@ TEST_CASE("Copy Constructor")
     REQUIRE(containerToStr(v2) == "{1, 2, 3, 4, 42}");
 }
 
+TEST_CASE("assignment operator")
+{
+    vector<int> v = {1, 2, 3};
+    vector<int> c = {3, 4, 5};
+
+    c = v;
+
+    REQUIRE(c[0] == 1);
+
+    v[2] = 34;
+    c[0] = 100;
+
+    REQUIRE(containerToStr(v) == "{1, 2, 34}");
+    REQUIRE(containerToStr(c) == "{100, 2, 3}");
+
+    v = vector<int>();
+
+    REQUIRE(v.size() == 0);
+}
+
+TEST_CASE("move constructor")
+{
+    vector<int> v = {1, 2, 3};
+    vector<int> v2 = move(v);
+
+    REQUIRE(containerToStr(v) == "{}");
+    REQUIRE(containerToStr(v2) == "{1, 2, 3}");
+}
+
+TEST_CASE("move assignment")
+{
+    vector<int> v = {1, 2, 3};
+    vector<int> v2 = {4, 5, 6};
+
+    v2 = move(v);
+
+    REQUIRE(containerToStr(v) == "{}");
+    REQUIRE(containerToStr(v2) == "{1, 2, 3}");
+}
+
+TEST_CASE("[]")
+{
+    vector<int> v = {1, 2, 3};
+
+    REQUIRE(v[0] == 1);
+
+    v.assign(1, 100);
+
+    REQUIRE(v[0] == 100);
+}
+
+TEST_CASE("at()")
+{
+    vector<int> v = {1, 2 ,3};
+
+    REQUIRE(v.at(1) == 2);
+
+    REQUIRE_THROWS_AS(v.at(5), out_of_range);
+}
+
 TEST_CASE("push back")
 {
     vector<int> v;
@@ -86,6 +146,19 @@ TEST_CASE("push back")
     REQUIRE(v.size() == 5);
     REQUIRE(containerToStr(v) == "{1, 2, 3, 4, 5}");
     REQUIRE(v.capacity() == 8);
+}
+
+TEST_CASE("pop_back")
+{
+    vector<int> v = {1, 2, 3, 4};
+
+    REQUIRE(containerToStr(v) == "{1, 2, 3, 4}");
+    REQUIRE(v.size() == 4);
+
+    v.pop_back();
+
+    REQUIRE(containerToStr(v) == "{1, 2, 3}");
+    REQUIRE(v.size() == 3);
 }
 
 TEST_CASE("back()")
@@ -110,42 +183,3 @@ TEST_CASE("front()")
     REQUIRE(v.front() == 100);
 }
 
-TEST_CASE("[]")
-{
-    vector<int> v = {1, 2, 3};
-
-    REQUIRE(v[0] == 1);
-
-    v.assign(1, 100);
-
-    REQUIRE(v[0] == 100);
-}
-
-TEST_CASE("Assignment operator")
-{
-    vector<int> v = {1, 2, 3};
-    vector<int> c = {3, 4, 5};
-
-    c = v;
-
-    REQUIRE(c[0] == 1);
-
-    v[2] = 34;
-    c[0] = 100;
-
-    REQUIRE(containerToStr(v) == "{1, 2, 34}");
-    REQUIRE(containerToStr(c) == "{100, 2, 3}");
-
-    v = vector<int>();
-
-    REQUIRE(v.size() == 0);
-}
-
-TEST_CASE("at()")
-{
-    vector<int> v = {1, 2 ,3};
-
-    REQUIRE(v.at(1) == 2);
-
-    REQUIRE_THROWS_AS(v.at(5), out_of_range);
-}

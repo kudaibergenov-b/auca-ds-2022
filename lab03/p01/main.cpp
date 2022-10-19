@@ -87,7 +87,7 @@ void applyShuffleDeck(vector<int>& deck, const vector<int>& shuffle)
     for (int i = 0; i < 52; i++)
     {
         r[i] = deck[shuffle[i] - 1];
-        deck[shuffle[i] - 1] = deck[i];
-        deck[i] = r[i];
     }
+
+    deck = r;
 }

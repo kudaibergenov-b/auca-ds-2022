@@ -198,22 +198,62 @@ TEST_CASE("front()")
 
 TEST_CASE("type iterator, operators")
 {
-    // TODO;
+    vector<int> v(3);
+
+    REQUIRE(*v.begin() == 0);
+
+    ++*v.begin();
+
+    REQUIRE(*v.begin() == 1);
+
+    --*v.begin();
+
+    REQUIRE(*v.begin() == 0);
+
+    *v.begin() += 3;
+    *v.begin() -= 2;
+
+    REQUIRE(*v.begin() == 1);
 }
 
 TEST_CASE("insert(it, value), insert(it, beg, end")
 {
-    // TODO;
+    vector<int> v(3, 1);
+
+    v.insert(v.begin(), 0);
+
+    REQUIRE(containerToStr(v) == "{0, 1, 1, 1}");
+    REQUIRE(v.size() == 4);
+
+    vector<int> v2(3, 2);
+
+    v.insert(v.end(), v2.begin(), v2.end());
+    REQUIRE(containerToStr(v) == "{0, 1, 1, 1, 2, 2, 2}");
+    REQUIRE(v.size() == 7);
 }
 
 TEST_CASE("erase(it), erase(beg, end)")
 {
-    // TODO;
+    vector<int> v = {1, 2, 3, 4, 5};
+
+    v.erase(v.begin());
+
+    REQUIRE(containerToStr(v) == "{2, 3, 4, 5}");
+    REQUIRE(v.size() == 4);
+
+    v.erase(v.begin(), v.end() - 1);
+
+    REQUIRE(containerToStr(v) == "{5}");
+    REQUIRE(v.size() == 1);
 }
 
 TEST_CASE("constructor vector(beg, end)")
 {
-    // TODO;
+    vector<int> v = {1, 2, 3, 4, 5, 6, 7};
+    vector<int> v2(v.begin(), v.end() - 2);
+
+    REQUIRE(containerToStr(v2) == "{1, 2, 3, 4, 5}");
+    REQUIRE(v2.size() == 5);
 }
 
 TEST_CASE("reverse")

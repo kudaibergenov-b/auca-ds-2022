@@ -136,58 +136,120 @@ TEST_CASE("comparison operators, method compare")
 
 TEST_CASE("for (auto &c : str)")
 {
-    // TODO
+    string s1("CASUAL");
+    string s2;
+
+    for (auto c : s1)
+    {
+        s2 += c + 32;
+    }
+
+    REQUIRE(s2 == "casual");
 }
 
 TEST_CASE("front()")
 {
-    // TODO
+    string s("abcde");
+
+    REQUIRE(s.front() == 'a');
+
+    s.front() = 'A';
+
+    REQUIRE(s.front() == 'A');
 }
 
 TEST_CASE("back()")
 {
-    // TODO
+    string s("abcde");
+
+    REQUIRE(s.back() == 'e');
+
+    s.back() = 'E';
+
+    REQUIRE(s.back() == 'E');
 }
 
 TEST_CASE("substr(index, length), find(char ch)")
 {
-    // TODO
+    string str("Love and peace");
+    string sbstr = str.substr(0, 4);
+
+    REQUIRE(sbstr == "Love");
+    REQUIRE(sbstr.find('L') == 0);
 }
 
 TEST_CASE("iterators, operators")
 {
-    // TODO
+    string str("TOMATO");
+
+    REQUIRE(*str.begin() == 'T');
+
+    ++*str.begin();
+
+    REQUIRE(*str.begin() == 'U');
+
+    --*str.begin();
+
+    REQUIRE(*str.begin() == 'T');
+
+    *str.begin() += 34;
+    *str.begin() -= 2;
+
+    REQUIRE(*str.begin() == 't');
 }
 
 
 TEST_CASE("insert(index, length, char)")
 {
-    // TODO
+    string str("board");
+
+    str.insert(str.begin(), 1, 'a');
+
+    REQUIRE(str == "aboard");
 }
 
 TEST_CASE("erase(index, length)")
 {
-    // TODO
+    string str("watermelon");
+
+    str.erase(0, 5);
+
+    REQUIRE(str == "melon");
+    REQUIRE(str.length() == 5);
 }
 
 TEST_CASE("constructor string(beg, end)")
 {
-    // TODO
+    string s1("cocacola");
+    string s2(s1.begin() + 4, s1.end());
+
+    REQUIRE(s2 == "cola");
+    REQUIRE(s2.length() == 4);
 }
 
 TEST_CASE("reverse algorithm")
 {
-    // TODO
+    string str("12345");
+
+    reverse(str.begin(), str.end());
+
+    REQUIRE(str == "54321");
 }
 
 TEST_CASE("sort algorithm")
 {
-    // TODO
+    string str("cebda");
+
+    sort(str.begin(), str.end());
+
+    REQUIRE(str == "abcde");
 }
 
 TEST_CASE("binary_search")
 {
-    // TODO
+    string str("aaaa");
+
+    REQUIRE(binary_search(str.begin(), str.end(), 'a'));
 }
 
 TEST_CASE("min_element")

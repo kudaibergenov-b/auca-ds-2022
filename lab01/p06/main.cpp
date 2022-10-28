@@ -196,24 +196,59 @@ TEST_CASE("front()")
     REQUIRE(v.front() == 100);
 }
 
-TEST_CASE("type iterator, operators")
+class Student
 {
-    vector<int> v(3);
+    string mName;
+    double mGPA;
 
-    REQUIRE(*v.begin() == 0);
+public:
+    Student(const string &name, double gpa)
+        : mName(name), mGPA(gpa)
+        {
+        }
+    const string &name() const{
+        return mName;
+    }
+};
 
-    ++*v.begin();
+TEST_CASE("iterators")
+{
+    vector<int> v = {4, 2, 1, 2, 5, 4};
+    vector<Student> s = {{"StudentA", 4.00}, {"StudentB", 1.6}};
 
-    REQUIRE(*v.begin() == 1);
+    SUBCASE("* dereference")
+    {
+        auto it = v.begin();
+        REQUIRE(*it == 4);
+        *it = 10;
+        REQUIRE(v.front() == 10);
+    }
 
-    --*v.begin();
+    SUBCASE("->")
+    {
+        auto it = s.begin();
+        REQUIRE((*it).name() == "StudentA");
+        REQUIRE(it->name() == "StudentA");
+    }
 
-    REQUIRE(*v.begin() == 0);
+    SUBCASE("+")
+    {
+        auto it = v.begin();
+        REQUIRE(*it == 4);
+        REQUIRE(*(it + 4) == 5);
+        it += 3;
+        REQUIRE(*it == 2);
+    }
 
-    *v.begin() += 3;
-    *v.begin() -= 2;
-
-    REQUIRE(*v.begin() == 1);
+    SUBCASE("it1 - it2")
+    {
+        auto it1 = v.begin();
+        auto it2 =  it1 + 2;
+        REQUIRE(it2 - it1 == 2);
+        auto it3 = v.begin() + 4;
+        int index = it3 - v.begin();
+        REQUIRE(v[index] == 5);
+    }
 }
 
 TEST_CASE("insert(it, value), insert(it, beg, end")

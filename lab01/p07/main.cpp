@@ -178,24 +178,36 @@ TEST_CASE("substr(index, length), find(char ch)")
     REQUIRE(sbstr.find('L') == 0);
 }
 
-TEST_CASE("iterators, operators")
+TEST_CASE("iterators")
 {
     string str("TOMATO");
 
-    REQUIRE(*str.begin() == 'T');
+    SUBCASE("* dereference")
+    {
+        auto it = str.begin();
+        REQUIRE(*it == 'T');
+        *it = 't';
+        REQUIRE(*(str.begin()) == 't');
+    }
 
-    ++*str.begin();
+    SUBCASE("+")
+    {
+        auto it = str.begin();
+        REQUIRE(*it == 'T');
+        REQUIRE(*(it + 2) == 'M');
+        it += 3;
+        REQUIRE(*it == 'A');
+    }
 
-    REQUIRE(*str.begin() == 'U');
-
-    --*str.begin();
-
-    REQUIRE(*str.begin() == 'T');
-
-    *str.begin() += 34;
-    *str.begin() -= 2;
-
-    REQUIRE(*str.begin() == 't');
+    SUBCASE("it1 - it2")
+    {
+        auto it1 = str.begin();
+        auto it2 =  it1 + 2;
+        REQUIRE(it2 - it1 == 2);
+        auto it3 = str.begin() + 1;
+        int index = it3 - str.begin();
+        REQUIRE(str.at(index) == 'O');
+    }
 }
 
 

@@ -53,4 +53,67 @@ TEST_CASE("Constructor Rational(num, den")
 
         REQUIRE(sout.str() == "2/5");
     }
+
+    SUBCASE("reducing 11/17")
+    {
+        Rational<int> x(11, 17);
+        sout << x;
+
+        REQUIRE(sout.str() == "11/17");
+    }
+
+    SUBCASE("reducing 28/-12")
+    {
+        Rational<int> x(28, -12);
+        sout << x;
+
+        REQUIRE(sout.str() == "-7/3");
+    }
+
+    SUBCASE("reducing 6/1")
+    {
+        Rational<int> x(6);
+        sout << x;
+
+        REQUIRE(sout.str() == "6/1");
+    }
+}
+
+TEST_CASE("Addition")
+{
+    ostringstream sout;
+
+    SUBCASE("1/2 + 2/3")
+    {
+        Rational<int> x(1, 2);
+        Rational<int> y(2, 3);
+        sout << x + y;
+
+        REQUIRE(sout.str() == "7/6");
+    }
+
+    // SUBCASE("1/2 + 2")
+    // {
+    //     Rational<int> x(1, 2);
+    //     Rational<int> y(2);
+    //     Rational<int> r = x + 2;
+    //     sout << r;
+
+    //     REQUIRE(sout.str() == "3/2");
+    // }
+}
+
+TEST_CASE("Substruction")
+{
+    // TODO
+}
+
+TEST_CASE("Multiplication")
+{
+    // TODO
+}
+
+TEST_CASE("Division")
+{
+    // TODO
 }

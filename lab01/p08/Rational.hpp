@@ -6,17 +6,18 @@
 template <typename T>
 class Rational
 {
-    T mNum;
-    T mDen;
+    // by default everything is private
+    T mNum; // data member, field
+    T mDen; // data member;
 
 public:
     Rational()
-        : mNum(0), mDen(1)
+        : mNum(0), mDen(1) // we can initialize even constants, references + more eff
     {
     }
 
     Rational(const T &num)
-        : mNum(num), mDen(1)
+        : mNum(num), mDen(1) // we can initialize even constants, references + more eff
     {
     }
 
@@ -67,6 +68,55 @@ std::ostream &operator<<(std::ostream &out, const Rational<T> &x)
 }
 
 template <typename T>
+std::istream &operator>>(std::istream &inp, Rational<T> &r)
+{
+    T num;
+    if (!(inp >> num))
+    {
+        return inp;
+    }
+
+    char ch;
+    if (!inp.get(ch)) // we do not skip whitespaces. For "1 /2" it assigns ' ' to ch
+    {
+        return inp;
+    }
+
+    if (ch != '/')
+    {
+        inp.putback(ch);
+        inp.setstate(std::ios_base::failbit);
+        return inp;
+    }
+
+    if (!inp.get(ch))
+    {
+        return inp;
+    }
+
+    if (ch == '+' || ch == '-' || isdigit(ch))
+    {
+        inp.putback(ch);
+    }
+    else
+    {
+        inp.putback(ch);
+        inp.setstate(std::ios_base::failbit);
+        return inp;
+    }
+
+    T den;
+    if (!(inp >> den))
+    {
+        return inp;
+    }
+
+    r = Rational<T>(num, den);
+
+    return inp;
+}
+
+template <typename T>
 Rational<T> operator+(const Rational<T> &a, const Rational<T> &b)
 {
     T num = a.num() * b.den() + a.den() * b.num();
@@ -96,7 +146,7 @@ Rational<T> operator*(const Rational<T> &a, const Rational<T> &b)
 template <typename T>
 Rational<T> operator/(const Rational<T> &a, const Rational<T> &b)
 {
-    if (b == 0)
+    if (b == Rational<T>())
     {
         throw std::runtime_error("Rational: division by zero");
     }
@@ -108,37 +158,53 @@ Rational<T> operator/(const Rational<T> &a, const Rational<T> &b)
 }
 
 template <typename T>
-Rational<T> operator==(const Rational<T> &a, const Rational<T> &b)
+bool operator==(const Rational<T> &a, const Rational<T> &b)
 {
     return a.num() == b.num() && a.den() == b.den();
 }
 
 template <typename T>
-Rational<T> operator!=(const Rational<T> &a, const Rational<T> &b)
+bool operator!=(const Rational<T> &a, const Rational<T> &b)
 {
     return !(a == b);
 }
 
 template <typename T>
-Rational<T> operator<(const Rational<T> &a, const Rational<T> &b)
+bool operator<(const Rational<T> &a, const Rational<T> &b)
 {
     return a.num() * b.den() < a.den() * b.num();
 }
 
 template <typename T>
-Rational<T> operator>(const Rational<T> &a, const Rational<T> &b)
+bool operator>(const Rational<T> &a, const Rational<T> &b)
 {
     return b < a;
 }
 
 template <typename T>
-Rational<T> operator>=(const Rational<T> &a, const Rational<T> &b)
+bool operator>=(const Rational<T> &a, const Rational<T> &b)
 {
     return !(a < b);
 }
 
 template <typename T>
-Rational<T> operator<=(const Rational<T> &a, const Rational<T> &b)
+bool operator<=(const Rational<T> &a, const Rational<T> &b)
 {
     return !(b < a);
+}
+
+// Optional: for expressions like 2 + x, x + 2
+
+template <typename T, typename IntType>
+Rational<T> operator+(const IntType &intValue, const Rational<T> &b)
+{
+    Rational<T> a(intValue);
+    return Rational<T>(a.num() * b.den() + a.den() * b.num(), a.den() * b.den());
+}
+
+template <typename T, typename IntType>
+Rational<T> operator+(const Rational<T> &a, const IntType &intValue)
+{
+    Rational<T> b(intValue);
+    return Rational<T>(a.num() * b.den() + a.den() * b.num(), a.den() * b.den());
 }

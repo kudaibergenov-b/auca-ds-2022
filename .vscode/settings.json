@@ -4,6 +4,7 @@
         "span": "cpp",
         "type_traits": "cpp",
         "sstream": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "iosfwd": "cpp"
     }
 }

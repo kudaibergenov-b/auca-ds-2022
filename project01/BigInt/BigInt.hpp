@@ -39,15 +39,15 @@ public:
             index++;
         } else if (isdigit(s.at(index))) 
         {
-            mDigits.push_back((int)s.at(index));
+            mDigits.push_back(s.at(index) - '0');
             index++;
         }
 
-        for (int i = 0; i < (int)s.length(); i++)
+        for (int i = index; i < (int)s.length(); i++)
         {
             if (isdigit(s.at(i)))
             {
-                mDigits.push_back((int)s.at(i));
+                mDigits.push_back(s.at(i) - '0');
             }
             else
             {

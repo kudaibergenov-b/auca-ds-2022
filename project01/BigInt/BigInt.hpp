@@ -37,13 +37,17 @@ public:
         {
             mIsNegative = true;
             index++;
+        } else if (isdigit(s.at(index))) 
+        {
+            mDigits.push_back((int)s.at(index));
+            index++;
         }
 
-        for (int i = index; i < (int)s.size() - 1; i++)
+        for (int i = 0; i < (int)s.length(); i++)
         {
             if (isdigit(s.at(i)))
             {
-                mDigits.push_back(s.at(i));
+                mDigits.push_back((int)s.at(i));
             }
             else
             {

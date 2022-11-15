@@ -28,27 +28,27 @@ public:
         }
 
         int index = 0;
-        for (auto d : s)
+        
+        if (s.at(index) == '+')
         {
-            
-            if (isdigit(s.at(index)) || s.at(index) == '+')
+            index++;
+        } 
+        else if (s.at(index) == '-')
+        {
+            mIsNegative = true;
+            index++;
+        }
+
+        for (int i = index; i < (int)s.size() - 1; i++)
+        {
+            if (isdigit(s.at(i)))
             {
-                index++;
-            } 
-            else if (s.at(index) == '-')
-            {
-                mIsNegative == true;
-                index++;
+                mDigits.push_back(s.at(i));
             }
-            else 
+            else
             {
                 throw std::runtime_error("Incorrect format of BigInteger");
             }
-        }
-
-        for (int i = index; i < s.size() - 1; i++)
-        {
-            
         }
     }
     

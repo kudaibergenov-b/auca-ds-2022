@@ -80,6 +80,48 @@ TEST_CASE("Constructor with a string")
     }
 }
 
+TEST_CASE("Constructor with an integer")
+{
+    ostringstream sout;
+
+    SUBCASE("12345")
+    {
+        BigInt x(12345);
+        sout << x;
+        REQUIRE(sout.str() == "12345");
+    }
+
+    SUBCASE("-625")
+    {
+        BigInt x(-625);
+        sout << x;
+        REQUIRE(sout.str() == "-625");
+    }
+}
+
+TEST_CASE("operator==")
+{
+    SUBCASE("test #1")
+    {
+        BigInt x(5);
+        BigInt y("5");
+        REQUIRE(x == y);
+    }
+    SUBCASE("test #2")
+    {
+        BigInt x(-4);
+        BigInt y("-4");
+        REQUIRE(x == y);
+    }
+    SUBCASE("test #3")
+    {
+        BigInt x(-3);
+        BigInt y("3");
+        REQUIRE(!(x == y));
+    }
+    
+}
+
 TEST_CASE("Addition")
 {
     ostringstream sout;
@@ -100,19 +142,19 @@ TEST_CASE("Addition")
         REQUIRE(sout.str() == "1000");
     }
 
-    SUBCASE("positive + positive, test #3")
-    {
-        for (int x = 0; x <= 1000; ++x)
-        {
-            for (int y = 0; y <= 1000; ++y)
-            {
-                BigInt a(to_string(x));
-                BigInt b(to_string(y));
-                sout << a + b;
-                REQUIRE(sout.str() == to_string(x + y));
-                sout.str("");
-            }
-        }
-    }
+    // SUBCASE("positive + positive, test #3")
+    // {
+    //     for (int x = 0; x <= 1000; ++x)
+    //     {
+    //         for (int y = 0; y <= 1000; ++y)
+    //         {
+    //             BigInt a(to_string(x));
+    //             BigInt b(to_string(y));
+    //             sout << a + b;
+    //             REQUIRE(sout.str() == to_string(x + y));
+    //             sout.str("");
+    //         }
+    //     }
+    // }
 }
 

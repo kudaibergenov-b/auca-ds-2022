@@ -10,6 +10,7 @@ class BigInt
 {
     friend std::ostream &operator<<(std::ostream &out, const BigInt &x);
     friend BigInt operator+(const BigInt &x, const BigInt &y);
+    friend bool operator==(const BigInt &x, const BigInt &y);
     std::vector<int> mDigits;
     bool mIsNegative;
 
@@ -58,6 +59,20 @@ public:
         : mIsNegative(false)
     {
         mDigits.push_back(0);
+    }
+
+    BigInt(const int &i)
+        : mIsNegative(false)
+    {
+        int d = i;
+
+        if (d < 0)
+        {
+            mIsNegative = true;
+            d = -d;
+        }
+
+        mDigits.push_back(d);
     }
 
     BigInt(const std::string &s)
@@ -123,4 +138,17 @@ inline BigInt operator+(const BigInt &x, const BigInt &y)
     }
 
     throw std::runtime_error("not implemented yet");
+}
+
+inline bool operator==(const BigInt &x, const BigInt &y)
+{
+    if ((x.mIsNegative && y.mIsNegative) || (!x.mIsNegative && !y.mIsNegative))
+    {
+        return x.mDigits == y.mDigits;
+    }
+    else
+    {
+        return false;
+    }
+    
 }

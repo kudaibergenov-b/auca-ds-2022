@@ -99,76 +99,56 @@ TEST_CASE("Constructor with an integer")
     }
 }
 
-TEST_CASE("operator==")
+TEST_CASE("Comparison operators")
 {
-    SUBCASE("test #1")
+    SUBCASE("==operator")
     {
         BigInt x(5);
         BigInt y("5");
         REQUIRE(x == y);
     }
 
-    SUBCASE("test #2")
-    {
-        BigInt x(-4);
-        BigInt y("-4");
-        REQUIRE(x == y);
-    }
-
-    SUBCASE("test #3")
-    {
-        BigInt x(-3);
-        BigInt y("3");
-        REQUIRE(!(x == y));
-    }
-    
-}
-
-TEST_CASE("operator!=")
-{
-    SUBCASE("test #1")
+    SUBCASE("!=operator")
     {
         BigInt x(3);
         BigInt y("7");
         REQUIRE(x != y);
     }
 
-    SUBCASE("test #2")
+    SUBCASE("< operator")
+    {
+        BigInt x(-6);
+        BigInt y("-4");
+        REQUIRE(x < y);
+    }
+
+    SUBCASE("> operator")
+    {
+        BigInt x(-3);
+        BigInt y("-5");
+        REQUIRE(x > y);
+    }
+
+    SUBCASE(">= operator")
+    {
+        BigInt x(7);
+        BigInt y("7");
+        REQUIRE(x >= y);
+
+        BigInt a(9);
+        BigInt b("8");
+        REQUIRE(a >= b);
+    }
+
+    SUBCASE("<= operator")
     {
         BigInt x(4);
-        BigInt y("-4");
-        REQUIRE(x != y);
-    }
-
-    SUBCASE("test #3")
-    {
-        BigInt x(2);
-        BigInt y("2");
-        REQUIRE((x != y) == false);
-    }
-}
-
-TEST_CASE("operator<")
-{
-    SUBCASE("test #1")
-    {
-        BigInt x(2);
-        BigInt y("5");
-        REQUIRE(x < y);
-    }
-
-    SUBCASE("test #2")
-    {
-        BigInt x(-4);
         BigInt y("4");
-        REQUIRE(x < y);
-    }
+        REQUIRE(x <= y);
 
-    SUBCASE("test #3")
-    {
-        BigInt x(-5);
-        BigInt y("-4");
-        REQUIRE(x < y);
+        BigInt a(5);
+        BigInt b("6");
+        REQUIRE(a <= b);
     }
 }
 
@@ -192,19 +172,19 @@ TEST_CASE("Addition")
         REQUIRE(sout.str() == "1000");
     }
 
-    // SUBCASE("positive + positive, test #3")
-    // {
-    //     for (int x = 0; x <= 1000; ++x)
-    //     {
-    //         for (int y = 0; y <= 1000; ++y)
-    //         {
-    //             BigInt a(to_string(x));
-    //             BigInt b(to_string(y));
-    //             sout << a + b;
-    //             REQUIRE(sout.str() == to_string(x + y));
-    //             sout.str("");
-    //         }
-    //     }
-    // }
+    SUBCASE("positive + positive, test #3")
+    {
+        for (int x = 0; x <= 1000; ++x)
+        {
+            for (int y = 0; y <= 1000; ++y)
+            {
+                BigInt a(to_string(x));
+                BigInt b(to_string(y));
+                sout << a + b;
+                REQUIRE(sout.str() == to_string(x + y));
+                sout.str("");
+            }
+        }
+    }
 }
 

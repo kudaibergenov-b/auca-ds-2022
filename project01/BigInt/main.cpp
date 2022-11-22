@@ -107,12 +107,14 @@ TEST_CASE("operator==")
         BigInt y("5");
         REQUIRE(x == y);
     }
+
     SUBCASE("test #2")
     {
         BigInt x(-4);
         BigInt y("-4");
         REQUIRE(x == y);
     }
+
     SUBCASE("test #3")
     {
         BigInt x(-3);
@@ -120,6 +122,54 @@ TEST_CASE("operator==")
         REQUIRE(!(x == y));
     }
     
+}
+
+TEST_CASE("operator!=")
+{
+    SUBCASE("test #1")
+    {
+        BigInt x(3);
+        BigInt y("7");
+        REQUIRE(x != y);
+    }
+
+    SUBCASE("test #2")
+    {
+        BigInt x(4);
+        BigInt y("-4");
+        REQUIRE(x != y);
+    }
+
+    SUBCASE("test #3")
+    {
+        BigInt x(2);
+        BigInt y("2");
+        REQUIRE((x != y) == false);
+    }
+}
+
+TEST_CASE("operator<")
+{
+    SUBCASE("test #1")
+    {
+        BigInt x(2);
+        BigInt y("5");
+        REQUIRE(x < y);
+    }
+
+    SUBCASE("test #2")
+    {
+        BigInt x(-4);
+        BigInt y("4");
+        REQUIRE(x < y);
+    }
+
+    SUBCASE("test #3")
+    {
+        BigInt x(-5);
+        BigInt y("-4");
+        REQUIRE(x < y);
+    }
 }
 
 TEST_CASE("Addition")

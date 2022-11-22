@@ -72,12 +72,12 @@ TEST_CASE("Constructor with a string")
         REQUIRE_THROWS_WITH(BigInt("hello"), "Incorrect format of BigInteger");
     }
 
-    // SUBCASE("0000213")
-    // {
-    //     BigInt x("0000213");
-    //     sout << x;
-    //     REQUIRE(sout.str() == "213");
-    // }
+    SUBCASE("0000213")
+    {
+        BigInt x("0000213");
+        sout << x;
+        REQUIRE(sout.str() == "213");
+    }
 }
 
 TEST_CASE("Addition")

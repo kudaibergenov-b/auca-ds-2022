@@ -57,39 +57,40 @@ public:
     BigInt()
         : mIsNegative(false)
     {
-            mDigits.push_back(0);
+        mDigits.push_back(0);
     }
 
     BigInt(const std::string &s)
         : mIsNegative(false)
-    {   
+    {
         if (s.empty())
         {
             throw std::runtime_error("BigInteger value cannot be empty");
         }
 
-        int index = 0;
-        
-        if (s.at(index) == '+')
-        {
-            index++;
-        } 
-        else if (s.at(index) == '-')
-        {
-            mIsNegative = true;
-            index++;
-        } 
-        else if (isdigit(s.at(index))) 
-        {
-            mDigits.push_back(s.at(index) - '0');
-            index++;
-        } 
+        bool isSign(true);
+        bool isZero(true);
 
-        for (int i = index; i < (int)s.length(); i++)
+        for (auto d : s)
         {
-            if (isdigit(s.at(i)))
+            if (d == '-' && isSign)
             {
-                mDigits.push_back(s.at(i) - '0');
+                mIsNegative = true;
+                isSign = false;
+            }
+            else if (d == '+' && isSign)
+            {
+                isSign = false;
+            }
+            else if (d == '0' && isZero)
+            {
+                isZero = true;
+            }
+            else if (isdigit(d))
+            {
+                mDigits.push_back(d - '0');
+                isSign = false;
+                isZero = false;
             }
             else
             {
@@ -120,6 +121,6 @@ inline BigInt operator+(const BigInt &x, const BigInt &y)
     {
         return BigInt::addAbsValues(x, y);
     }
-    
+
     throw std::runtime_error("not implemented yet");
 }

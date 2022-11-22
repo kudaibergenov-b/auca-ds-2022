@@ -152,3 +152,16 @@ inline bool operator==(const BigInt &x, const BigInt &y)
     }
     
 }
+
+inline bool operator==(const BigInt &x, const BigInt &y)
+{
+    if ((x.mIsNegative && y.mIsNegative) || (!x.mIsNegative && !y.mIsNegative))
+    {
+        return x.mDigits == y.mDigits;
+    }
+    else
+    {
+        return false;
+    }
+    
+}

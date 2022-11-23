@@ -172,19 +172,113 @@ TEST_CASE("Addition")
         REQUIRE(sout.str() == "1000");
     }
 
-    SUBCASE("positive + positive, test #3")
+    // SUBCASE("positive + positive, test #3")
+    // {
+    //     for (int x = 0; x <= 1000; ++x)
+    //     {
+    //         for (int y = 0; y <= 1000; ++y)
+    //         {
+    //             BigInt a(to_string(x));
+    //             BigInt b(to_string(y));
+    //             sout << a + b;
+    //             REQUIRE(sout.str() == to_string(x + y));
+    //             sout.str("");
+    //         }
+    //     }
+    // }
+}
+
+TEST_CASE("input operator")
+{
+    ostringstream sout;
+
+    SUBCASE("correct inp #1")
     {
-        for (int x = 0; x <= 1000; ++x)
-        {
-            for (int y = 0; y <= 1000; ++y)
-            {
-                BigInt a(to_string(x));
-                BigInt b(to_string(y));
-                sout << a + b;
-                REQUIRE(sout.str() == to_string(x + y));
-                sout.str("");
-            }
-        }
+        istringstream sinp("123");
+        BigInt x;
+        sinp >> x;
+        REQUIRE(sinp.eof());
+        REQUIRE(x == 123);
+    }
+
+    SUBCASE("correct inp #2")
+    {
+        istringstream sinp("   123 ");
+        int x;
+        sinp >> x;
+        REQUIRE(sinp.good());
+        REQUIRE(x == 123);
+    }
+
+    SUBCASE("correct inp #3")
+    {
+        istringstream sinp("123u123");
+        int x;
+        sinp >> x;
+        REQUIRE(sinp.good());
+        REQUIRE(x == 123);
+        char ch;
+        sinp >> ch;
+        REQUIRE(ch == 'u');
+    }
+
+    SUBCASE("correct inp #4")
+    {
+        istringstream sinp("   -123");
+        int x;
+        sinp >> x;
+        REQUIRE(sinp.eof());
+        REQUIRE(x == -123);
+    }
+
+    SUBCASE("correct inp #5")
+    {
+        istringstream sinp("   +123");
+        int x;
+        sinp >> x;
+        REQUIRE(sinp.eof());
+        REQUIRE(x == 123);
+    }
+
+    SUBCASE("incorrect inp #1")
+    {
+        istringstream sinp("+ 123");
+        int x;
+        sinp >> x;
+        REQUIRE(sinp.fail());
+        REQUIRE(x == 0);
+    }
+
+    SUBCASE("incorrect inp #2")
+    {
+        istringstream sinp("++123");
+        int x;
+        sinp >> x;
+        REQUIRE(sinp.fail());
+        REQUIRE(x == 0);
+    }
+
+    SUBCASE("incorrect inp #3")
+    {
+        istringstream sinp("hello");
+        BigInt x;
+        char ch;
+        sinp >> x;
+        REQUIRE(sinp.fail());
+        REQUIRE(x == 0);
+        sinp.clear();
+        sinp >> ch;
+        REQUIRE(ch == 'h');
+    }
+
+    SUBCASE("incorrect inp #4")
+    {
+        istringstream sinp("");
+        BigInt x;
+        sinp >> x;
+        REQUIRE(sinp.fail());
+        REQUIRE(sinp.eof());
+        REQUIRE(x == 0);
     }
 }
 

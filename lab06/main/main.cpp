@@ -218,12 +218,193 @@ void p06()
     }
 }
 
+void p07()
+{
+    vector<Student> students = {
+        {"StudentD", 2.7},
+        {"StudentA", 4.0},
+        {"StudentX", 3.2},
+        {"StudentC", 4.0},
+        {"StudentK", 4.0},
+        {"StudentE", 2.0},
+        {"StudentR", 4.0},
+        {"StudentD", 2.7},
+        {"StudentA", 4.0},
+        {"StudentX", 3.2},
+        {"StudentC", 4.0},
+        {"StudentK", 4.0},
+        {"StudentE", 2.0},
+        {"StudentR", 4.0},
+        {"StudentR", 4.0},
+        {"StudentD", 2.7},
+        {"StudentA", 4.0},
+        {"StudentX", 3.2},
+        {"StudentC", 4.0},
+        {"StudentK", 4.0},
+        {"StudentE", 2.0},
+        {"StudentR", 4.0}};
+
+    cout << "--- regular sort by name ---" << endl;
+
+    sort(begin(students), end(students), 
+        [](const Student &s1, const Student &s2)
+        { return s1.mName < s2.mName; });
+
+    for (const auto &s : students)
+    {
+        cout << s.mName << ", " << s.mGpa << endl;
+    }
+
+    cout << "--- regular sort by gpa ---" << endl;
+
+    sort(begin(students), end(students), 
+        [](const Student &s1, const Student &s2)
+        { return s1.mGpa < s2.mGpa; });
+
+    for (const auto &s : students)
+    {
+        cout << s.mName << ", " << s.mGpa << endl;
+    }
+
+    cout << "--- stable sort by name ---" << endl;
+
+    stable_sort(begin(students), end(students), 
+        [](const Student &s1, const Student &s2)
+        { return s1.mName < s2.mName; });
+
+    for (const auto &s : students)
+    {
+        cout << s.mName << ", " << s.mGpa << endl;
+    }
+
+    cout << "--- stable sort by gpa ---" << endl;
+
+    stable_sort(begin(students), end(students), 
+        [](const Student &s1, const Student &s2)
+        { return s1.mGpa < s2.mGpa; });
+
+    for (const auto &s : students)
+    {
+        cout << s.mName << ", " << s.mGpa << endl;
+    }
+}
+
+void p08()
+{
+    vector<pair<string, double>> students;
+    string name;
+    double gpa;
+    while (cin >> name >> gpa)
+    {
+        students.emplace_back(name, gpa);
+    }
+
+    sort(begin(students), end(students)); 
+
+    cout << "---" << endl;
+    cout << fixed << showpoint << setprecision(2);    
+    for (const auto &p : students)
+    {
+        cout << p.first << ", " << p.second << endl;
+    }
+}
+
+void p09()
+{
+    vector<tuple<string, int, double>> employes;
+    string name;
+    int age;
+    double salary;
+    while (cin >> name >> age >> salary)
+    {
+        employes.emplace_back(name, age, salary);
+    }
+
+    sort(begin(employes), end(employes), 
+        [](const auto &e1, const auto &e2)
+        { return get<1>(e1) < get<1>(e2); }); 
+
+    cout << "---" << endl;
+    cout << fixed << showpoint << setprecision(2);    
+    for (const auto &e : employes)
+    {
+        cout << get<0>(e) << ", " << get<1>(e) << ", " << get<2>(e) << endl;
+    }
+}
+
+void p1001()
+{
+    vector<int> v = {0, 4, 5, 10, 12, 20, 25, 40};
+
+    for (int x; cin >> x;)
+    {
+        cout << (binary_search(begin(v), end(v), x) ? "Yes\n" : "No\n");
+    }
+}
+
+void p11()
+{
+    vector<int> v = {0, 4, 5, 10, 12, 20, 25, 40};
+
+    for (int x; cin >> x;)
+    {
+        auto it = lower_bound(begin(v), end(v), x);
+        if (it == end(v))
+        {
+            cout << "no elements equal or greater than " << x << endl;
+        }
+        else if (*it == x)
+        {
+            cout << "first element equal to " << x << " has index: " << it - begin(v) << endl;
+        }
+        else
+        {
+            cout << "there are no elements equal to " << x << endl;
+            cout << "first element greater than " << x << " has index: " << it - begin(v) << endl;
+        }
+    }
+}
+
+void p12()
+{
+    vector<int> v = {0, 0, 4, 5, 10, 10, 10, 12, 20, 25, 35, 25, 25, 40};
+
+    for (int x; cin >> x;)
+    {
+        auto p = equal_range(begin(v), end(v), x);
+        if (p.first == p.second)
+        {
+            cout << "there are no elements equal to " << x << endl;
+        }
+        else
+        {
+            cout << "number of elements equal to x is: " << p.second - p.first << endl;
+        }
+    }
+}
+
 int main()
 {
     //p0101();
     //p0102();
+
     //p0201();
     //p0202();
-    //p06();
+
     //p03();
+
+    //p06();
+
+    //p07();
+
+    //p08();
+
+    //p09();
+
+    //p1001();
+    //p1002();
+
+    //p11();
+
+    p12();
 }

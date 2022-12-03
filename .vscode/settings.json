@@ -38,6 +38,7 @@
         "ostream": "cpp",
         "system_error": "cpp",
         "thread": "cpp",
-        "tuple": "cpp"
+        "tuple": "cpp",
+        "charconv": "cpp"
     }
 }

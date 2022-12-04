@@ -52,5 +52,7 @@ int main()
         {
             cout << v[i] << "\n";
         }
+
+        v = vector<int>();
     }
 }

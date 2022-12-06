@@ -58,10 +58,14 @@ int main()
 
         for (int t = 0; t < m; ++t)
         {
-            cout << ss[t].mLetters << endl;
+            cout << ss[t].mLetters << "\n";
         }
 
-        cout << endl;
         ss = vector<SpecialString>();
+        
+        if (i < M - 1)
+        {
+            cout << "\n";
+        }
     }
 }

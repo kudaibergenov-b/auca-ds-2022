@@ -411,6 +411,7 @@ int main()
     vector<BigInt> v(5001);
     v[0] = 0;
     v[1] = 1;
+    
     for (int i = 2; i < 5001; ++i)
     {
         v[i] = v[i - 1] + v[i - 2];

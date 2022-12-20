@@ -220,6 +220,58 @@ TEST_CASE("Addition")
     }
 }
 
+TEST_CASE("Substraction")
+{
+    ostringstream sout;
+    SUBCASE("positive - positive, test #1")
+    {
+        BigInt x("30");
+        BigInt y("30");
+        sout << x - y;
+        REQUIRE(sout.str() == "0");
+    }
+
+    SUBCASE("positive - positive, test #2")
+    {
+        BigInt x("10");
+        BigInt y("11");
+        sout << x - y;
+        REQUIRE(sout.str() == "-1");
+    }
+
+    SUBCASE("negative - negative, test #1")
+    {
+        BigInt x("-30");
+        BigInt y("-30");
+        sout << x - y;
+        REQUIRE(sout.str() == "0");
+    }
+
+    SUBCASE("negative - negative, test #2")
+    {
+        BigInt x("-30");
+        BigInt y("-37");
+        sout << x - y;
+        REQUIRE(sout.str() == "7");
+    }
+
+    SUBCASE("negative - positive")
+    {
+        BigInt x("-30");
+        BigInt y("24");
+        sout << x - y;
+        REQUIRE(sout.str() == "-54");
+    }
+
+    SUBCASE("positive - negative")
+    {
+        BigInt x("30");
+        BigInt y("-54");
+        sout << x - y;
+        REQUIRE(sout.str() == "84");
+    }
+}
+
 TEST_CASE("input operator")
 {
     ostringstream sout;

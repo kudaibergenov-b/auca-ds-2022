@@ -11,6 +11,7 @@ class BigInt
     friend std::ostream &operator<<(std::ostream &out, const BigInt &x);
     friend std::istream &operator>>(std::istream &inp, const BigInt &x);
     friend BigInt operator+(const BigInt &x, const BigInt &y);
+    friend BigInt operator-(const BigInt &x, const BigInt &y);
     friend bool operator==(const BigInt &x, const BigInt &y);
     friend bool operator!=(const BigInt &x, const BigInt &y);
     friend bool operator<(const BigInt &x, const BigInt &y);
@@ -253,6 +254,46 @@ inline BigInt operator+(const BigInt &x, const BigInt &y)
         z.mIsNegative = y.mIsNegative;
         return z;
     }
+}
+
+inline BigInt operator-(const BigInt &x, const BigInt &y)
+{
+    if (!(x.mIsNegative) && y.mIsNegative)
+    {
+        BigInt z = BigInt::addAbsValues(x, y); 
+        z.mIsNegative = false;
+        return z;
+    }
+
+    if (x.mIsNegative && !(y.mIsNegative))
+    {
+        BigInt z = BigInt::addAbsValues(x, y); 
+        z.mIsNegative = true;
+        return z;
+    }
+
+    if (x.mIsNegative == y.mIsNegative)
+    {
+        int c = BigInt::compAbsValues(x, y); 
+        if (c == 0)
+        {
+            return BigInt();
+        }
+        else if (c > 0)
+        {
+            BigInt z = BigInt::subAbsValues(x, y);
+            z.mIsNegative = x.mIsNegative;
+            return z;
+        }
+        else
+        {
+            BigInt z = BigInt::subAbsValues(y, x);
+            z.mIsNegative = !y.mIsNegative;
+            return z;
+        }
+    }
+
+    return BigInt();
 }
 
 inline bool operator==(const BigInt &x, const BigInt &y)

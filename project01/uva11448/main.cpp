@@ -4,8 +4,7 @@ class BigInt
 {
     friend std::ostream &operator<<(std::ostream &out, const BigInt &x);
     friend std::istream &operator>>(std::istream &inp, const BigInt &x);
-    friend BigInt operator+(const BigInt &x, const BigInt &y);
-    friend bool operator==(const BigInt &x, const BigInt &y);
+    friend BigInt operator-(const BigInt &x, const BigInt &y);
     std::vector<int> mDigits;
     bool mIsNegative;
 public:
@@ -54,63 +53,93 @@ public:
         : BigInt(std::to_string(x))
     {
     }
-
-    BigInt &operator+=(const BigInt &x)
-    {
-        *this = *this + x;
-        return *this;
-    }
 private:
-    static BigInt addAbsValues(const BigInt &x, const BigInt &y)
+    static int compAbsValues(const BigInt &x, const BigInt &y)
     {
+        if (x.mDigits.size() < y.mDigits.size())
+        {
+            return -1;
+        }
+
+        if (x.mDigits.size() > y.mDigits.size())
+        {
+            return 1;
+        }
+
+        for (int i = 0; i < (int)x.mDigits.size(); ++i)
+        {
+            if (x.mDigits[i] != y.mDigits[i])
+            {
+                return x.mDigits[i] - y.mDigits[i];
+            }
+        }
+        return 0;
+    }
+
+    static BigInt subAbsValues(const BigInt &x, const BigInt &y)
+    {
+        BigInt z;
+        z.mDigits.clear();
+
         auto itX = x.mDigits.rbegin();
         auto itY = y.mDigits.rbegin();
 
-        BigInt z;
-        z.mDigits.resize(std::max(x.mDigits.size(), y.mDigits.size()) + 1);
-        auto itZ = z.mDigits.rbegin();
-
-        int carry = 0;
-
-        while (itX != x.mDigits.rend() || itY != y.mDigits.rend())
+        int borrow = 0;
+        while (itX != x.mDigits.rend())
         {
-            int s = carry;
-            if (itX != x.mDigits.rend())
-            {
-                s += *itX;
-                ++itX;
-            }
+            int d = *itX - borrow;
+            ++itX;
+
             if (itY != y.mDigits.rend())
             {
-                s += *itY;
+                d -= *itY;
                 ++itY;
             }
-            *itZ = s % 10;
-            carry = (s > 9) ? 1 : 0;
-            ++itZ;
-        }
-        if (carry != 0)
-        {
-            *itZ = carry;
-        }
-        if (z.mDigits.size() > 1 && z.mDigits.front() == 0)
-        {
-            z.mDigits.erase(z.mDigits.begin());
+
+            if (d < 0)
+            {
+                d += 10;
+                borrow = 1;
+            }
+            else
+            {
+                borrow = 0;
+            }
+
+            z.mDigits.push_back(d);
         }
 
+        while (z.mDigits.size() > 1 && z.mDigits.back() == 0)
+        {
+            z.mDigits.pop_back();
+        }
+
+        std::reverse(z.mDigits.begin(), z.mDigits.end());
         return z;
     }
 };
 
-inline bool operator==(const BigInt &x, const BigInt &y)
+inline BigInt operator-(const BigInt &x, const BigInt &y)
 {
-    return x.mIsNegative == y.mIsNegative && x.mDigits == y.mDigits;
-}
+    int c = BigInt::compAbsValues(x, y); 
+    if (c == 0)
+    {
+        return BigInt();
+    }
+    else if (c > 0)
+    {
+        BigInt z = BigInt::subAbsValues(x, y);
+        z.mIsNegative = x.mIsNegative;
+        return z;
+    }
+    else
+    {
+        BigInt z = BigInt::subAbsValues(y, x);
+        z.mIsNegative = !y.mIsNegative;
+        return z;
+    }
 
-inline BigInt operator+(const BigInt &x, const BigInt &y)
-{   
-    BigInt z = BigInt::addAbsValues(x, y);
-    return z;
+    return BigInt();
 }
 
 inline std::ostream &operator<<(std::ostream &out, const BigInt &x)
@@ -175,17 +204,13 @@ using namespace std;
 int main()
 {
     iostream::sync_with_stdio(false);
-    
-    BigInt sum = 0;
-    for (BigInt x; cin >> x;)
+
+    int n;
+    cin >> n;
+    for (int i = 0; i < n; ++i)
     {
-        if (x == 0)
-        {
-            break;
-        }
-
-        sum += x;
+        BigInt a, b;
+        cin >> a >> b;
+        cout << a - b << "\n";
     }
-
-    cout << sum << "\n";
 }

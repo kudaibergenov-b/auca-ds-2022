@@ -186,6 +186,38 @@ TEST_CASE("Addition")
     //         }
     //     }
     // }
+
+    SUBCASE("negative + negative")
+    {
+        BigInt x("-99");
+        BigInt y("-1");
+        sout << x + y;
+        REQUIRE(sout.str() == "-100");
+    }
+
+    SUBCASE("negative + positive, test #1")
+    {
+        BigInt x("-54");
+        BigInt y("25");
+        sout << x + y;
+        REQUIRE(sout.str() == "-29");
+    }
+
+    SUBCASE("negative + positive, test #2")
+    {
+        BigInt x("-26");
+        BigInt y("30");
+        sout << x + y;
+        REQUIRE(sout.str() == "4");
+    }
+
+    SUBCASE("negative + positive, test #3")
+    {
+        BigInt x("-30");
+        BigInt y("30");
+        sout << x + y;
+        REQUIRE(sout.str() == "0");
+    }
 }
 
 TEST_CASE("input operator")

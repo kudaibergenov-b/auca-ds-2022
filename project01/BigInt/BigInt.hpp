@@ -107,6 +107,70 @@ private:
 
         return z;
     }
+
+    static BigInt subAbsValues(const BigInt &x, const BigInt &y)
+    {
+        BigInt z;
+        z.mDigits.clear();
+
+        auto itX = x.mDigits.rbegin();
+        auto itY = y.mDigits.rbegin();
+
+        int borrow = 0;
+        while (itX != x.mDigits.rend())
+        {
+            int d = *itX - borrow;
+            ++itX;
+
+            if (itY != y.mDigits.rend())
+            {
+                d -= *itY;
+                ++itY;
+            }
+
+            if (d < 0)
+            {
+                d += 10;
+                borrow = 1;
+            }
+            else
+            {
+                borrow = 0;
+            }
+
+            z.mDigits.push_back(d);
+        }
+
+        while (z.mDigits.size() > 1 && z.mDigits.back() == 0)
+        {
+            z.mDigits.pop_back();
+        }
+
+        std::reverse(z.mDigits.begin(), z.mDigits.end());
+        return z;
+    }
+
+    static int compAbsValues(const BigInt &x, const BigInt &y)
+    {
+        if (x.mDigits.size() < y.mDigits.size())
+        {
+            return -1;
+        }
+
+        if (x.mDigits.size() > y.mDigits.size())
+        {
+            return 1;
+        }
+
+        for (int i = 0; i < (int)x.mDigits.size(); ++i)
+        {
+            if (x.mDigits[i] != y.mDigits[i])
+            {
+                return x.mDigits[i] - y.mDigits[i];
+            }
+        }
+        return 0;
+    }
 };
 
 inline std::ostream &operator<<(std::ostream &out, const BigInt &x)
@@ -164,13 +228,31 @@ inline std::istream &operator>>(std::istream &inp, BigInt &x)
 }
 
 inline BigInt operator+(const BigInt &x, const BigInt &y)
-{
-    if (!x.mIsNegative && !y.mIsNegative)
+{   
+    if (x.mIsNegative == y.mIsNegative)
     {
-        return BigInt::addAbsValues(x, y);
+        BigInt z = BigInt::addAbsValues(x, y);
+        z.mIsNegative = x.mIsNegative;
+        return z;
     }
 
-    throw std::runtime_error("not implemented yet");
+    int c = BigInt::compAbsValues(x, y);
+    if (c == 0)
+    {
+        return BigInt();
+    }
+    else if (c > 0)
+    {
+        BigInt z = BigInt::subAbsValues(x, y);
+        z.mIsNegative = x.mIsNegative;
+        return z;
+    }
+    else 
+    {
+        BigInt z = BigInt::subAbsValues(y, x);
+        z.mIsNegative = y.mIsNegative;
+        return z;
+    }
 }
 
 inline bool operator==(const BigInt &x, const BigInt &y)

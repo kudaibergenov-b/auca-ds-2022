@@ -68,6 +68,43 @@ public:
     {
     }
 
+    BigInt &operator+=(const BigInt &x)
+    {
+        *this = *this + x;
+        return *this;
+    }
+
+    BigInt &operator-=(const BigInt &x)
+    {
+        *this = *this - x;
+        return *this;
+    }
+
+    BigInt &operator-()
+    {
+        if (*this == 0 || *this == -0)
+        {
+            *this = 0;
+            return *this;
+        }
+
+        if (this->mIsNegative)
+        {
+            this->mIsNegative = false;
+            return *this;
+        }
+        else
+        {
+            this->mIsNegative = true;
+            return *this;
+        }
+    }
+
+    BigInt &operator+()
+    {
+        return *this;
+    }
+
 private:
     static BigInt addAbsValues(const BigInt &x, const BigInt &y)
     {
@@ -294,6 +331,32 @@ inline BigInt operator-(const BigInt &x, const BigInt &y)
     }
 
     return BigInt();
+}
+
+BigInt &operator++(BigInt &x) 
+{
+    x += 1;
+    return x;
+}
+
+BigInt operator++(BigInt &x, int) 
+{
+    BigInt z = x;
+    z += 1;
+    return z;
+}
+
+BigInt &operator--(BigInt &x)
+{
+    x -= 1;
+    return x;
+}
+
+BigInt operator--(BigInt &x, int)
+{
+    BigInt z = x;
+    z -= 1;
+    return z;
 }
 
 inline bool operator==(const BigInt &x, const BigInt &y)

@@ -71,13 +71,6 @@ TEST_CASE("Constructor with a string")
         REQUIRE_THROWS_AS(BigInt("hello"), runtime_error);
         REQUIRE_THROWS_WITH(BigInt("hello"), "Incorrect format of BigInteger");
     }
-
-    // SUBCASE("0000213")
-    // {
-    //     BigInt x("0000213");
-    //     sout << x;
-    //     REQUIRE(sout.str() == "213");
-    // }
 }
 
 TEST_CASE("Constructor with an integer")
@@ -172,20 +165,20 @@ TEST_CASE("Addition")
         REQUIRE(sout.str() == "1000");
     }
 
-    // SUBCASE("positive + positive, test #3")
-    // {
-    //     for (int x = 0; x <= 1000; ++x)
-    //     {
-    //         for (int y = 0; y <= 1000; ++y)
-    //         {
-    //             BigInt a(to_string(x));
-    //             BigInt b(to_string(y));
-    //             sout << a + b;
-    //             REQUIRE(sout.str() == to_string(x + y));
-    //             sout.str("");
-    //         }
-    //     }
-    // }
+    SUBCASE("positive + positive, test #3")
+    {
+        for (int x = 0; x <= 1000; ++x)
+        {
+            for (int y = 0; y <= 1000; ++y)
+            {
+                BigInt a(to_string(x));
+                BigInt b(to_string(y));
+                sout << a + b;
+                REQUIRE(sout.str() == to_string(x + y));
+                sout.str("");
+            }
+        }
+    }
 
     SUBCASE("negative + negative")
     {
@@ -217,6 +210,39 @@ TEST_CASE("Addition")
         BigInt y("30");
         sout << x + y;
         REQUIRE(sout.str() == "0");
+    }
+
+    SUBCASE("unary +operator")
+    {
+        BigInt x("-6");
+        BigInt y = +x;
+        sout << y;
+        REQUIRE(sout.str() == "-6");
+    }
+
+    SUBCASE("operator +=")
+    {
+        BigInt x("19");
+        BigInt y("11");
+        x += y;
+        sout << x;
+        REQUIRE(sout.str() == "30");
+    }
+
+    SUBCASE("postfix ++")
+    {
+        BigInt x("19");
+        x++;
+        sout << x;
+        REQUIRE(sout.str() == "19");
+    }
+
+    SUBCASE("++ prefix")
+    {
+        BigInt x("19");
+        ++x;
+        sout << x;
+        REQUIRE(sout.str() == "20");
     }
 }
 
@@ -269,6 +295,39 @@ TEST_CASE("Substraction")
         BigInt y("-54");
         sout << x - y;
         REQUIRE(sout.str() == "84");
+    }
+
+    SUBCASE("unary -operator")
+    {
+        BigInt x("-6");
+        BigInt y = -x;
+        sout << y;
+        REQUIRE(sout.str() == "6");
+    }
+
+    SUBCASE("operator -=")
+    {
+        BigInt x("19");
+        BigInt y("9");
+        x -= y;
+        sout << x;
+        REQUIRE(sout.str() == "10");
+    }
+
+    SUBCASE("postfix --")
+    {
+        BigInt x("19");
+        x--;
+        sout << x;
+        REQUIRE(sout.str() == "19");
+    }
+
+    SUBCASE("-- prefix")
+    {
+        BigInt x("19");
+        --x;
+        sout << x;
+        REQUIRE(sout.str() == "18");
     }
 }
 
